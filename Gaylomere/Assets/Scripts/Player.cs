@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    float speed = 3f;
     Rigidbody2D rb;
     int coins = 0;
     Vector3 startingPosition;
