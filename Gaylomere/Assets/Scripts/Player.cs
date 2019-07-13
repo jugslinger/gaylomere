@@ -8,6 +8,9 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     int coins = 0;
     Vector3 startingPosition;
+    private float Speed = 5f;
+    private Vector3 input;
+
 
     // Start is called before the first frame update
     void Start()
@@ -19,14 +22,16 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
-            rb.AddForce(new Vector3(-100, 0, 0));
+            //rb.AddForce(new Vector3(-100, 0, 0));
+            transform.position += new Vector3(-1, 0, 0) * Speed * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
-            rb.AddForce(new Vector3(100, 0, 0));
+            //rb.AddForce(new Vector3(100, 0, 0));
+            transform.position += new Vector3(1, 0, 0) * Speed * Time.deltaTime;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))

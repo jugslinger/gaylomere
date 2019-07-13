@@ -27,10 +27,10 @@ public class LevelGeneration : MonoBehaviour
         //creates initial starting area
         backY[0] = 0;
         backX[0] = 0;
-        Instantiate(back, new Vector3(backX[0], backY[0], 1), Quaternion.identity);
+        Instantiate(back, new Vector3(backX[0], backY[0], 0), Quaternion.identity);
         backY[1] = 0;
         backX[1] = 1;
-        Instantiate(back, new Vector3(backX[1], backY[1], 1), Quaternion.identity);
+        Instantiate(back, new Vector3(backX[1], backY[1], 0), Quaternion.identity);
 
         //loop creates base layout of map
         for (int i = 2; i <= size; i++)
@@ -42,27 +42,27 @@ public class LevelGeneration : MonoBehaviour
             else
                 rand = Random.Range(1, 3);
 
-            if (rand == 0)
+            if (rand == 0) //up
             {
                 backX[i] = backX[i - 1];
                 backY[i] = backY[i - 1] + 1;
             }
-            else if (rand == 1)
+            else if (rand == 1) //right
             {
                 backX[i] = backX[i - 1] + 1;
                 backY[i] = backY[i - 1];
             }
-            else
+            else //down
             {
                 backX[i] = backX[i - 1];
                 backY[i] = backY[i - 1] - 1;
             }
 
-            Instantiate(back, new Vector3(backX[i], backY[i], 1), Quaternion.identity);
+            Instantiate(back, new Vector3(backX[i], backY[i], 0), Quaternion.identity);
         }
 
         //creates a level ending area
-        Instantiate(back, new Vector3(backX[size] + 1, backY[size], 1), Quaternion.identity);
+        Instantiate(back, new Vector3(backX[size] + 1, backY[size], 0), Quaternion.identity);
         backX[size + 1] = backX[size] + 1;
         backY[size + 1] = backY[size];
 
@@ -72,10 +72,10 @@ public class LevelGeneration : MonoBehaviour
                 for (int k = -1; k < 2; k++)
                 {
                     bool exist = false;
-                    for (int m = 0; m < size + 2; m++)
+                    for (int m = 0; m < size + 2 && !exist; m++)
                         if (backX[i] + j == backX[m] && backY[i] + k == backY[m])
                             exist = true;
-                    for (int n = 0; n <= wallCount; n++)
+                    for (int n = 0; n <= wallCount && !exist; n++)
                         if (backX[i] + j == wallX[n] && backY[i] + k == wallY[n])
                             exist = true;
                     if (!exist)
