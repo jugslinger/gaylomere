@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
 {
 
     Rigidbody2D rb;
-    int coins = 0;
     Vector3 startingPosition;
     private float Speed = 5f;
     private Vector3 input;
@@ -24,19 +23,17 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            //rb.AddForce(new Vector3(-100, 0, 0));
             transform.position += new Vector3(-1, 0, 0) * Speed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            //rb.AddForce(new Vector3(100, 0, 0));
             transform.position += new Vector3(1, 0, 0) * Speed * Time.deltaTime;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(new Vector3(0, 100, 0));
+            rb.AddForce(new Vector3(0, 200, 0));
         }
     }
 
@@ -44,7 +41,6 @@ public class Player : MonoBehaviour
     {
         if (col.tag == "Coin")
         {
-            coins++;
             Destroy(col.gameObject); // remove the coin
         }
         else if (col.tag == "Water")
@@ -59,8 +55,13 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "End")
         {
-            // Load next level? Heres how you get this level's scene number, add 1 to it and load that scene:
-            // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            Global.playerAtEnd++;
         }
+    }
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.tag == "End")
+            Global.playerAtEnd--;
     }
 }
