@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
 {
 
     Rigidbody2D rb;
-    Vector3 startingPosition;
     private float Speed = 5f;
     private Vector3 input;
 
@@ -15,7 +14,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); // Get the rigidbody component added to the object and store it in rb
-        startingPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -46,12 +44,10 @@ public class Player : MonoBehaviour
         else if (col.tag == "Water")
         {
             // Death? Reload Scene? Teleport to start:
-            transform.position = startingPosition;
         }
         else if (col.tag == "Spike")
         {
             // Death? Reload Scene? Teleport to start:
-            transform.position = startingPosition;
         }
         else if (col.tag == "End")
         {
