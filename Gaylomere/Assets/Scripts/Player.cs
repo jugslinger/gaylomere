@@ -41,13 +41,9 @@ public class Player : MonoBehaviour
         {
             Destroy(col.gameObject); // remove the coin
         }
-        else if (col.tag == "Water")
+        else if (col.tag == "Begin")
         {
-            // Death? Reload Scene? Teleport to start:
-        }
-        else if (col.tag == "Spike")
-        {
-            // Death? Reload Scene? Teleport to start:
+            Global.playerAtBegin++;
         }
         else if (col.tag == "End")
         {
@@ -58,6 +54,12 @@ public class Player : MonoBehaviour
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.tag == "End")
+        {
             Global.playerAtEnd--;
+        }
+        else if (col.tag == "Begin")
+        {
+            Global.playerAtBegin--;
+        }
     }
 }
