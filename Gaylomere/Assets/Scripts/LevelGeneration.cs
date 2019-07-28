@@ -15,6 +15,9 @@ public class LevelGeneration : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Global.playerAtBegin = 0;
+        Global.playerAtEnd = 0;
+
         if (!Global.generated[Global.level])
         {
             int size = Random.Range(Global.level + 5, Global.level + 10);
@@ -24,7 +27,6 @@ public class LevelGeneration : MonoBehaviour
             int[] wallX = new int[99999];
             int[] wallY = new int[99999];
 
-            Global.playerAtEnd = 0;
             int wallCount = 0;
 
             //creates initial starting area
