@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Global : MonoBehaviour
 {
+    public static int playerCount;
 
     public static int level = 1;
     public static int playerAtBegin = 0;
     public static int playerAtEnd = 0;
+    public static bool side = false;
 
     public static int[,] backXStorage = new int[9999, 9999];
     public static int[,] backYStorage = new int[9999, 9999];
