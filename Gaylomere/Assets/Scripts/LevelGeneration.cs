@@ -9,7 +9,10 @@ public class LevelGeneration : MonoBehaviour
     public GameObject wall;
     public GameObject end;
     public GameObject begin;
-    public GameObject player;
+    public GameObject player1;
+    public GameObject player2;
+    public GameObject player3;
+    public GameObject player4;
     int rand = 1;
 
     // Start is called before the first frame update
@@ -20,7 +23,7 @@ public class LevelGeneration : MonoBehaviour
 
         if (!Global.generated[Global.level])
         {
-            int size = Random.Range(Global.level + 5, Global.level + 10);
+            int size = Random.Range(Global.level + 10, Global.level + 15);
 
             int[] backY = new int[size + 2];
             int[] backX = new int[size + 2];
@@ -30,23 +33,40 @@ public class LevelGeneration : MonoBehaviour
             int wallCount = 0;
 
             //creates initial starting area
-            backY[0] = 0;
             backX[0] = 0;
+            backY[0] = 0;
             Instantiate(back, new Vector3(backX[0], backY[0], 0), Quaternion.identity);
             if (Global.level > 1)
             {
                 Instantiate(begin, new Vector3(backX[0], backY[0], 0), Quaternion.identity);
             }
-            backY[1] = 0;
             backX[1] = 2;
+            backY[1] = 0;
             Instantiate(back, new Vector3(backX[1], backY[1], 0), Quaternion.identity);
-            Instantiate(player, new Vector3(backX[1], backY[1], 0), Quaternion.identity);
-            backY[2] = 0;
             backX[2] = 4;
+            backY[2] = 0;
             Instantiate(back, new Vector3(backX[2], backY[2], 0), Quaternion.identity);
+            backX[3] = 6;
+            backY[3] = 0;
+            Instantiate(back, new Vector3(backX[3], backY[3], 0), Quaternion.identity);
+            switch (Global.playerCount)
+            {
+                case 4:
+                    Instantiate(player4, new Vector3(backX[2], backY[2], 0), Quaternion.identity);
+                    goto case 3;
+                case 3:
+                    Instantiate(player3, new Vector3(backX[1] + 1, backY[1], 0), Quaternion.identity);
+                    goto case 2;
+                case 2:
+                    Instantiate(player2, new Vector3(backX[1], backY[1], 0), Quaternion.identity);
+                    goto default;
+                default:
+                    Instantiate(player1, new Vector3(backX[1] - 1, backY[1], 0), Quaternion.identity);
+                    break;
+            }
 
             //loop creates base layout of map
-            for (int i = 3; i < size - 2; i++)
+            for (int i = 4; i < size - 3; i++)
             {
                 if (rand == 0)
                     rand = Random.Range(0, 2);
@@ -75,6 +95,9 @@ public class LevelGeneration : MonoBehaviour
             }
 
             //creates a level ending area
+            backX[size - 3] = backX[size - 4] + 2;
+            backY[size - 3] = backY[size - 4];
+            Instantiate(back, new Vector3(backX[size - 3], backY[size - 3], 0), Quaternion.identity);
             backX[size - 2] = backX[size - 3] + 2;
             backY[size - 2] = backY[size - 3];
             Instantiate(back, new Vector3(backX[size - 2], backY[size - 2], 0), Quaternion.identity);
@@ -134,11 +157,26 @@ public class LevelGeneration : MonoBehaviour
 
             if (Global.side)
             {
-                Instantiate(player, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 2], Global.backYStorage[Global.level, Global.backCount[Global.level] - 2], 0), Quaternion.identity);
+                // TODO change to the same below
+                Instantiate(player1, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 2], Global.backYStorage[Global.level, Global.backCount[Global.level] - 2], 0), Quaternion.identity);
             }
             else
             {
-                Instantiate(player, new Vector3(Global.backXStorage[Global.level, 1], Global.backYStorage[Global.level, 1], 0), Quaternion.identity);
+                switch (Global.playerCount)
+                {
+                    case 4:
+                        Instantiate(player4, new Vector3(Global.backXStorage[Global.level, 2], Global.backYStorage[Global.level, 2], 0), Quaternion.identity);
+                        goto case 3;
+                    case 3:
+                        Instantiate(player3, new Vector3(Global.backXStorage[Global.level, 1] + 1, Global.backYStorage[Global.level, 1], 0), Quaternion.identity);
+                        goto case 2;
+                    case 2:
+                        Instantiate(player2, new Vector3(Global.backXStorage[Global.level, 1], Global.backYStorage[Global.level, 1], 0), Quaternion.identity);
+                        goto default;
+                    default:
+                        Instantiate(player1, new Vector3(Global.backXStorage[Global.level, 1] - 1, Global.backYStorage[Global.level, 1], 0), Quaternion.identity);
+                        break;
+                }
             }
 
             Instantiate(end, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 1], Global.backYStorage[Global.level, Global.backCount[Global.level] - 1], 0), Quaternion.identity);
@@ -154,13 +192,13 @@ public class LevelGeneration : MonoBehaviour
     void Update()
     {
         //checks that all players are at the beginning/end loads the next level
-        if (Global.playerAtBegin >= 1)
+        if (Global.playerAtBegin >= Global.playerCount)
         {
             Global.level--;
             Global.side = true;
             SceneManager.LoadScene("SampleScene");
         }
-        else if (Global.playerAtEnd >= 1)
+        else if (Global.playerAtEnd >= Global.playerCount)
         {
             Global.level++;
             Global.side = false;

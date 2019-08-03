@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Global : MonoBehaviour
 {
-    public static int playerCount;
+    public static int playerCount = 1;
 
     public static int level = 1;
     public static int playerAtBegin = 0;
