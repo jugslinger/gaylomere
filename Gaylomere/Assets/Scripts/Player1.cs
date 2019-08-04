@@ -7,6 +7,7 @@ public class Player1 : MonoBehaviour
 
     Rigidbody2D rb;
     private float Speed = 5f;
+    private Vector3 input;
 
 
     // Start is called before the first frame update
@@ -28,7 +29,7 @@ public class Player1 : MonoBehaviour
             transform.position += new Vector3(1, 0, 0) * Speed * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(new Vector3(0, 200, 0));
         }

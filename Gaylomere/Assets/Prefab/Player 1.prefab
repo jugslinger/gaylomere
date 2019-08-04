@@ -194,7 +194,11 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
+<<<<<<< HEAD:Gaylomere/Assets/Prefab/Player 1.prefab
   m_EdgeRadius: 0.01
+=======
+  m_EdgeRadius: 0
+>>>>>>> parent of f08aab8... Started Multiplayer:Gaylomere/Assets/Prefab/Player.prefab
 --- !u!50 &5114682136698063278
 Rigidbody2D:
   serializedVersion: 4

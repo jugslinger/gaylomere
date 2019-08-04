@@ -142,7 +142,6 @@ public class LevelGeneration : MonoBehaviour
             Global.wallCount[Global.level] = wallCount;
             Global.generated[Global.level] = true;
         }
-        //Generates previously generated level
         else
         {
             for (int i = 0; i < Global.backCount[Global.level]; i++)
@@ -154,6 +153,7 @@ public class LevelGeneration : MonoBehaviour
             {
                 Instantiate(begin, new Vector3(Global.backXStorage[Global.level, 0], Global.backYStorage[Global.level, 0], 0), Quaternion.identity);
             }
+<<<<<<< HEAD
 
             if (Global.side)
             {
@@ -179,11 +179,14 @@ public class LevelGeneration : MonoBehaviour
                 }
             }
 
+=======
+            Instantiate(player, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 2], Global.backYStorage[Global.level, Global.backCount[Global.level] - 2], 0), Quaternion.identity);
+>>>>>>> parent of f08aab8... Started Multiplayer
             Instantiate(end, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 1], Global.backYStorage[Global.level, Global.backCount[Global.level] - 1], 0), Quaternion.identity);
 
             for (int i = 0; i < Global.wallCount[Global.level]; i++)
             {
-                Instantiate(wall, new Vector3(Global.wallXStorage[Global.level, i], Global.wallYStorage[Global.level, i], 0), Quaternion.identity);
+                Instantiate(wall, new Vector3(Global.wallXStorage[Global.level, i], Global.backYStorage[Global.level, i], 0), Quaternion.identity);
             }
         }
     }
@@ -195,13 +198,11 @@ public class LevelGeneration : MonoBehaviour
         if (Global.playerAtBegin >= Global.playerCount)
         {
             Global.level--;
-            Global.side = true;
             SceneManager.LoadScene("SampleScene");
         }
         else if (Global.playerAtEnd >= Global.playerCount)
         {
             Global.level++;
-            Global.side = false;
             SceneManager.LoadScene("SampleScene");
         }
     }
