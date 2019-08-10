@@ -15,11 +15,6 @@ public class LevelGeneration : MonoBehaviour
     public GameObject player4;
     public Camera cam;
 
-    GameObject plyr1;
-    GameObject plyr2;
-    GameObject plyr3;
-    GameObject plyr4;
-
     public List<Vector3> targets = new List<Vector3>();
     private Vector3 velocity;
 
@@ -60,26 +55,11 @@ public class LevelGeneration : MonoBehaviour
         Vector3 centerPoint;
         float maxDist;
 
-        targets.Clear();
-        switch (Global.playerCount)
-        {
-            case 4:
-                targets.Add(plyr4.transform.localPosition);
-                goto case 3;
-            case 3:
-                targets.Add(plyr3.transform.localPosition);
-                goto case 2;
-            case 2:
-                targets.Add(plyr2.transform.localPosition);
-                goto default;
-            default:
-                targets.Add(plyr1.transform.localPosition);
-                break;
-        }
+        targets.Insert(0, player1.transform.position);
 
         var bounds = new Bounds(targets[0], Vector3.zero);
 
-        for (int i = 0; i < Global.playerCount; i++)
+        for (int i = 0; i < targets.Count; i++)
                 bounds.Encapsulate(targets[i]);
 
         if (targets.Count == 1)
@@ -92,9 +72,9 @@ public class LevelGeneration : MonoBehaviour
         else
             maxDist = bounds.size.y;
 
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, Mathf.Lerp(50f, 100f, maxDist), Time.deltaTime);
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, Mathf.Lerp(50f, 5000f, maxDist), Time.deltaTime);
         
-        cam.transform.position = Vector3.SmoothDamp(cam.transform.position, centerPoint, ref velocity, 0.2f);
+        cam.transform.position = Vector3.SmoothDamp(cam.transform.position, centerPoint, ref velocity, 0.5f);
     }
 
     void NewLevel()
@@ -131,16 +111,20 @@ public class LevelGeneration : MonoBehaviour
         switch (Global.playerCount)
         {
             case 4:
-                plyr4 = Instantiate(player4, new Vector3(backX[2], backY[2], 0), Quaternion.identity);
+                Instantiate(player4, new Vector3(backX[2], backY[2], 0), Quaternion.identity);
+                //targets.(player4.transform);
                 goto case 3;
             case 3:
-                plyr3 = Instantiate(player3, new Vector3(backX[1] + 1, backY[1], 0), Quaternion.identity);
+                Instantiate(player3, new Vector3(backX[1] + 1, backY[1], 0), Quaternion.identity);
+                //targets.Add(player3.transform);
                 goto case 2;
             case 2:
-                plyr2 = Instantiate(player2, new Vector3(backX[1], backY[1], 0), Quaternion.identity);
+                Instantiate(player2, new Vector3(backX[1], backY[1], 0), Quaternion.identity);
+                //targets.Add(player2.transform);
                 goto default;
             default:
-                plyr1 = Instantiate(player1, new Vector3(backX[1] - 1, backY[1], 0), Quaternion.identity);
+                Instantiate(player1, new Vector3(backX[1] - 1, backY[1], 0), Quaternion.identity);
+                //targets.Add(player1.transform.position);
                 break;
         }
 
@@ -239,16 +223,20 @@ public class LevelGeneration : MonoBehaviour
             switch (Global.playerCount)
             {
                 case 4:
-                    plyr4 = Instantiate(player4, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 1], Global.backYStorage[Global.level, Global.backCount[Global.level] - 1], 0), Quaternion.identity);
+                    Instantiate(player4, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 1], Global.backYStorage[Global.level, Global.backCount[Global.level] - 1], 0), Quaternion.identity);
+                    //targets.Add(player4.transform);
                     goto case 3;
                 case 3:
-                    plyr3 = Instantiate(player3, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 1] - 1, Global.backYStorage[Global.level, Global.backCount[Global.level] - 1], 0), Quaternion.identity);
+                    Instantiate(player3, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 1] - 1, Global.backYStorage[Global.level, Global.backCount[Global.level] - 1], 0), Quaternion.identity);
+                    //targets.Add(player3.transform);
                     goto case 2;
                 case 2:
-                    plyr2 = Instantiate(player2, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 1] - 2, Global.backYStorage[Global.level, Global.backCount[Global.level] - 1], 0), Quaternion.identity);
+                    Instantiate(player2, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 1] - 2, Global.backYStorage[Global.level, Global.backCount[Global.level] - 1], 0), Quaternion.identity);
+                    //targets.Add(player2.transform);
                     goto default;
                 default:
-                    plyr1 = Instantiate(player1, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 1] - 3, Global.backYStorage[Global.level, Global.backCount[Global.level] - 1], 0), Quaternion.identity);
+                    Instantiate(player1, new Vector3(Global.backXStorage[Global.level, Global.backCount[Global.level] - 1] - 3, Global.backYStorage[Global.level, Global.backCount[Global.level] - 1], 0), Quaternion.identity);
+                    //targets.Add(player1.transform);
                     break;
             }
         }
@@ -257,16 +245,20 @@ public class LevelGeneration : MonoBehaviour
             switch (Global.playerCount)
             {
                 case 4:
-                    plyr4 = Instantiate(player4, new Vector3(Global.backXStorage[Global.level, 2], Global.backYStorage[Global.level, 2], 0), Quaternion.identity);
+                    Instantiate(player4, new Vector3(Global.backXStorage[Global.level, 2], Global.backYStorage[Global.level, 2], 0), Quaternion.identity);
+                    //targets.Add(player4.transform);
                     goto case 3;
                 case 3:
-                    plyr3 = Instantiate(player3, new Vector3(Global.backXStorage[Global.level, 1] + 1, Global.backYStorage[Global.level, 1], 0), Quaternion.identity);
+                    Instantiate(player3, new Vector3(Global.backXStorage[Global.level, 1] + 1, Global.backYStorage[Global.level, 1], 0), Quaternion.identity);
+                    //targets.Add(player3.transform);
                     goto case 2;
                 case 2:
-                    plyr2 = Instantiate(player2, new Vector3(Global.backXStorage[Global.level, 1], Global.backYStorage[Global.level, 1], 0), Quaternion.identity);
+                    Instantiate(player2, new Vector3(Global.backXStorage[Global.level, 1], Global.backYStorage[Global.level, 1], 0), Quaternion.identity);
+                    //targets.Add(player2.transform);
                     goto default;
                 default:
-                    plyr1 = Instantiate(player1, new Vector3(Global.backXStorage[Global.level, 1] - 1, Global.backYStorage[Global.level, 1], 0), Quaternion.identity);
+                    Instantiate(player1, new Vector3(Global.backXStorage[Global.level, 1] - 1, Global.backYStorage[Global.level, 1], 0), Quaternion.identity);
+                    //targets.Add(player1.transform);
                     break;
             }
         }
