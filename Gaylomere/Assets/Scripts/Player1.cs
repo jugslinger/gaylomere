@@ -34,6 +34,14 @@ public class Player1 : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "Enemy")
+        {
+            Global.player1CurrentHealth -= 2;
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D col) // col is the trigger object we collided with
     {
         if (col.tag == "Coin")

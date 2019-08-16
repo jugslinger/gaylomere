@@ -13,13 +13,12 @@ public class Enemy : MonoBehaviour
         {
             moveDistance.x = Random.Range(-6, 7);
         } while (moveDistance.x == 0);
-        transform.position = Vector2.MoveTowards(transform.position, transform.position + moveDistance, Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + moveDistance, Time.deltaTime);
 
-        pauseTimer = Random.Range(1, 6);
+        pauseTimer = Random.Range(1000, 6000);
         do
         {
             pauseTimer -= Time.deltaTime;
         } while (pauseTimer > 0);
-
     }
 }

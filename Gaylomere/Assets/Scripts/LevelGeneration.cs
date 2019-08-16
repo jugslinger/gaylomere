@@ -13,12 +13,14 @@ public class LevelGeneration : MonoBehaviour
     public GameObject player2;
     public GameObject player3;
     public GameObject player4;
+    public GameObject enemy;
     public Camera cam;
 
     GameObject plyr1;
     GameObject plyr2;
     GameObject plyr3;
     GameObject plyr4;
+    GameObject[] neme = new GameObject[10000];
 
     public List<Vector3> targets = new List<Vector3>();
     private Vector3 velocity;
@@ -40,6 +42,10 @@ public class LevelGeneration : MonoBehaviour
         // Update is called once per frame
     void Update()
     {
+        if (Global.player1CurrentHealth <= 0)
+        {
+            plyr1.SetActive(false);
+        }
         //checks that all players are at the beginning/end loads the next level
         if (Global.playerAtBegin >= Global.playerCount)
         {
@@ -108,6 +114,9 @@ public class LevelGeneration : MonoBehaviour
 
         int wallCount = 0;
         int rand = 1;
+        int rando;
+
+        Global.enemyCount[Global.level] = 0;
 
         //creates initial starting area
         backX[0] = 0;
@@ -171,6 +180,13 @@ public class LevelGeneration : MonoBehaviour
             }
 
             Instantiate(back, new Vector3(backX[i], backY[i], 0), Quaternion.identity);
+
+            rando = Random.Range(0, 5);
+            if (rando == 0)
+            {
+                neme[Global.enemyCount[Global.level]] = Instantiate(enemy, new Vector3(backX[i], backY[i], 0), Quaternion.identity);
+                Global.enemyCount[Global.level]++;
+            }
         }
 
         //creates a level ending area
