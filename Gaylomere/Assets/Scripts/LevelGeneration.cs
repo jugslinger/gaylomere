@@ -42,10 +42,7 @@ public class LevelGeneration : MonoBehaviour
         // Update is called once per frame
     void Update()
     {
-        if (Global.player1CurrentHealth <= 0)
-        {
-            plyr1.SetActive(false);
-        }
+        PlayerHealthCheck();
         //checks that all players are at the beginning/end loads the next level
         if (Global.playerAtBegin >= Global.playerCount)
         {
@@ -295,4 +292,23 @@ public class LevelGeneration : MonoBehaviour
         }
     }
 
+    void PlayerHealthCheck()
+    {
+        if (Global.player1CurrentHealth <= 0)
+        {
+            plyr1.SetActive(false);
+        }
+        if (Global.player2CurrentHealth <= 0)
+        {
+            plyr2.SetActive(false);
+        }
+        if (Global.player3CurrentHealth <= 0)
+        {
+            plyr3.SetActive(false);
+        }
+        if (Global.player4CurrentHealth <= 0)
+        {
+            plyr4.SetActive(false);
+        }
+    }
 }
