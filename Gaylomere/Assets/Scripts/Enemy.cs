@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     float pauseTimer;
+    Vector3 lastLocation;
     Vector3 moveDistance;
 
     private GameObject[] targets;
@@ -15,23 +16,15 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         targets = GameObject.FindGameObjectsWithTag("Player");
+        do
+        {
+            moveDistance.x = Random.Range(-6, 7);
+        } while (moveDistance.x == 0);
     }
 
     void Update()
     {
         float distance = Mathf.Infinity;
-
-        do
-        {
-            moveDistance.x = Random.Range(-6, 7);
-        } while (moveDistance.x == 0);
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + moveDistance, Time.deltaTime);
-
-        pauseTimer = Random.Range(1000, 6000);
-        do
-        {
-            pauseTimer -= Time.deltaTime;
-        } while (pauseTimer > 0);
 
         foreach (GameObject target in targets)
         {
@@ -42,13 +35,35 @@ public class Enemy : MonoBehaviour
                 distance = diff.sqrMagnitude;
             }
         }
-        if (distance <= 5)
+        if (distance <= 20)
         {
-            transform.position = Vector3.MoveTowards(transform.position, closest.transform.position, Time.deltaTime);
-            if(closest.transform.position.y > transform.position.y)
+            transform.position = Vector3.MoveTowards(transform.position, closest.transform.position, Time.deltaTime * 4.0f);
+            if (closest.transform.position.y > transform.position.y + 1)
             {
-                rb.AddForce(new Vector3(0, 200, 0));
+                rb.AddForce(new Vector3(0, 20, 0));
             }
         }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + moveDistance, Time.deltaTime);
+
+            if (Vector3.Distance(transform.position, transform.position + moveDistance) < 0.2f || (transform.position.x >= lastLocation.x - 0.02 && transform.position.x <= lastLocation.x + 0.02)) //lastLocation needs to be adjusted to stop ai from sticking to walls
+            {
+                if (pauseTimer <= 0 || (transform.position.x >= lastLocation.x - 0.02 && transform.position.x <= lastLocation.x + 0.02))
+                {
+                    do
+                    {
+                        moveDistance.x = Random.Range(-6, 7);
+                    } while (moveDistance.x == 0);
+                    pauseTimer = Random.Range(1, 6);
+                }
+                else
+                {
+                    pauseTimer -= Time.deltaTime;
+                }
+            }
+        }
+        lastLocation = transform.position;
+        Debug.Log("x: " + lastLocation.x.ToString());
     }
 }
